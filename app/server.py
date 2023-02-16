@@ -9,16 +9,12 @@ def server():
         def do_GET(self):
             parsed_path = urlparse(self.path)
             #Check if the request contains both the parameters we want
-            if 'latitude' in parsed_path.query and 'longitude' in parsed_path.query:
+            if('latitude' in parsed_path.query and 'longitude' in parsed_path.query):
                 latitude = parse_qs(parsed_path.query).get('latitude')
                 longitude = parse_qs(parsed_path.query).get('longitude')
-                print("Received request with latitude={latitude} and longitude={longitude}")
+                print("Received request with latitude=" + str(latitude) + " and longitude=" + str(longitude))
                 self.send_response(200) #Successful request
                 fetchWeather(latitude, longitude)
-            else:
-                #Missing one or both parameters
-                print('Missing parameter(s)')
-                self.send_response(400) #Unsuccessful request
                 
             self.send_header('Content-Type', 'text/plain; charset=utf-8')
             self.end_headers()
@@ -26,7 +22,7 @@ def server():
     server_address = ('', 5000)
     httpd = HTTPServer(server_address, RequestHandler)
 
-    print(f'Server listening on port 5000')
+    print('Server listening on port 5000')
     httpd.serve_forever()#listen on port 5000
         
 #This function is called after a successful request is sent to the server 
@@ -34,7 +30,7 @@ def server():
 #OpenWeatherMap api
 def fetchWeather(lat, lon):
     url = "https://api.openweathermap.org/data/2.5/weather"
-    api_key = "cb6fa3ab0249e0e985302fa62ebd7323"  # replace with your actual API key
+    api_key = "cb6fa3ab0249e0e985302fa62ebd7323"
 
     params = {"lat": lat, "lon": lon, "appid": api_key}
 
