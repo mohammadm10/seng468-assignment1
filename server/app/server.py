@@ -13,8 +13,14 @@ def server():
                 latitude = parse_qs(parsed_path.query).get('latitude')
                 longitude = parse_qs(parsed_path.query).get('longitude')
                 print("Received request with latitude=" + str(latitude) + " and longitude=" + str(longitude))
-                self.send_response(200) #Successful request
-                fetchWeather(latitude, longitude)
+                data = fetchWeather(latitude, longitude) #get json data from the api request
+                if data:
+                    response = json.dumps(data).encode('utf-8')
+                    self.send_response(200) #Successful request
+                    self.send_header('Content-Type', 'application/json')
+                    self.send_header('Content-Length', len(response))
+                    self.end_headers()
+                    self.wfile.write(response)
                 
             self.send_header('Content-Type', 'text/plain; charset=utf-8')
             self.end_headers()
@@ -38,7 +44,7 @@ def fetchWeather(lat, lon):
     
     if res.status_code == 200:
         data = json.loads(res.content)
-        print(data)
+        return data
     else:
         print("Request failed with status code {res.status_code}")
     
