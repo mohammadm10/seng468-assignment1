@@ -1,4 +1,5 @@
 import requests
+import sys
 
 def main():
     url = "http://localhost:5000" #server is on port 5000

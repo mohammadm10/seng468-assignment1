@@ -5,13 +5,13 @@ FROM python:3.9
 WORKDIR /app
 
 #copy .txt file to working directory
-COPY requirements.txt .
+COPY ./requirements.txt .
 
 #install dependencies that are needed
 RUN pip install --no-cache-dir -r requirements.txt
 
 #copy server.py to working directory
-COPY server.py .
+COPY ../app/server.py .
 
 #expose the port we need for the server
 EXPOSE 5000
