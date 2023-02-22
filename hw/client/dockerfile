@@ -1,7 +1,7 @@
 #base image
 FROM python:3.9
 
-# Set the working directory to /app
+#working directory set
 WORKDIR /app
 
 #copy .txt file to working directory
@@ -10,7 +10,7 @@ COPY ./requirements.txt .
 #install dependencies that are needed
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy the rest of the client-side code into the container at /app
+#copy client.py to working directory
 COPY ../app/client.py .
 
 #command that's run when the container starts
